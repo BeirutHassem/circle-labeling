@@ -56,19 +56,33 @@ const useStyles = makeStyles((theme) => ({
     drawerHeader: {
         display: 'flex',
         alignItems: 'center',
+
         padding: theme.spacing(0, 1),
         // necessary for content to be below app bar
         ...theme.mixins.toolbar,
-        justifyContent: 'flex-end',
+        justifyContent: 'center',
+    },
+    container: {
+        display: "flex",
+        justifyContent: 'center',
+        flexWrap: 'wrap',
+        flexDirection: 'row',
+        marginTop: 100, 
+        marginLeft : 40 ,
+        alignItems : 'center'
+
     },
     content: {
-        flexGrow: 1,
-        padding: theme.spacing(3),
+              
+        alignSelf : 'center' ,
+        marginTop : 20,
+        margin : 20 ,
         transition: theme.transitions.create('margin', {
             easing: theme.transitions.easing.sharp,
             duration: theme.transitions.duration.leavingScreen,
         }),
-        marginLeft: -drawerWidth,
+     
+        
     },
     contentShift: {
         transition: theme.transitions.create('margin', {
@@ -82,7 +96,7 @@ const useStyles = makeStyles((theme) => ({
 export default function PersistentDrawerLeft() {
     const classes = useStyles();
     const theme = useTheme();
-    const [open, setOpen] = React.useState(false);
+    const [open, setOpen] = React.useState(true);
 
     const handleDrawerOpen = () => {
         setOpen(true);
@@ -126,9 +140,7 @@ export default function PersistentDrawerLeft() {
                 }}
             >
                 <div className={classes.drawerHeader}>
-                    <IconButton onClick={handleDrawerClose}>
-                        {theme.direction === 'ltr' ? <ChevronLeftIcon /> : <ChevronRightIcon />}
-                    </IconButton>
+                    
                 </div>
                 <Divider />
                 <List>
@@ -149,32 +161,24 @@ export default function PersistentDrawerLeft() {
                     ))}
                 </List>
             </Drawer>
-            <main
-                className={clsx(classes.content, {
-                    [classes.contentShift]: open,
-                })}
-            >
-                <div className={classes.drawerHeader} />
-                <Grid container spacing={3} >
-                    <Grid item xs={12} sm={6}  md ={4}  lg ={3}  >
-                        <PieContainer />
-                    </Grid>
-                    <Grid item xs={12} sm={6}  md ={4}  lg ={3}  >
-                        <PieContainer />
-                    </Grid>
-                    <Grid item xs={12} sm={6}  md ={4}  lg ={3}  >
-                        <PieContainer />
-                    </Grid>
-                    <Grid item xs={12} sm={6}  md ={4}  lg ={3}  >
-                        <PieContainer />
-                    </Grid>
-                    <Grid item xs={12} sm={6}  md ={4}  lg ={3} >
-                        <PieContainer />
-                    </Grid>
-                </Grid>
+            <div className={classes.container} >
+                <div className={classes.content}>
+                    <PieContainer className={classes.content} />
+                </div>
+                <div className={classes.content}>
+                    <PieContainer className={classes.content} />
+                </div>
+                <div className={classes.content}>
+                    <PieContainer className={classes.content} />
+                </div>
+                <div className={classes.content}>
+                    <PieContainer className={classes.content} />
+                </div>
+                <div className={classes.content}>
+                    <PieContainer className={classes.content} />
+                </div>
 
-             
-            </main>
+            </div>
         </div>
     );
 }
