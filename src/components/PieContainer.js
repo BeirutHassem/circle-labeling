@@ -4,9 +4,10 @@ import Card from '@material-ui/core/Card';
 import CardActionArea from '@material-ui/core/CardActionArea';
 import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
-import CardMedia from '@material-ui/core/CardMedia';
 import Button from '@material-ui/core/Button';
-import Typography from '@material-ui/core/Typography';
+import DisplayPie1 from '../utils/functions'
+import * as d3 from 'd3';
+
 
 const useStyles = makeStyles({
   root: {
@@ -17,20 +18,15 @@ const useStyles = makeStyles({
   },
 });
 
-export default function PieContainer() {
+export default function PieContainer({children}) {
   const classes = useStyles();
-
   return (
     <Card className={classes.root}>
       <CardActionArea>
-     
         <CardContent>
-          <div style={{width : 400 , height : 400}}>
-              {// pass an SVG here as a props 
-              } 
+          <div style={{ width: 400, height: 400 }} >
+          {children}
           </div>
-      
-      
         </CardContent>
       </CardActionArea>
       <CardActions>

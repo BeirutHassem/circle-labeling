@@ -10,16 +10,13 @@ import Typography from '@material-ui/core/Typography';
 import Divider from '@material-ui/core/Divider';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
-import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
-import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import InboxIcon from '@material-ui/icons/MoveToInbox';
 import MailIcon from '@material-ui/icons/Mail';
 import PieContainer from './PieContainer';
-import Grid from '@material-ui/core/Grid';
-
+import DisplayPie1 from '../utils/functions'
 const drawerWidth = 240;
 
 const useStyles = makeStyles((theme) => ({
@@ -67,22 +64,22 @@ const useStyles = makeStyles((theme) => ({
         justifyContent: 'center',
         flexWrap: 'wrap',
         flexDirection: 'row',
-        marginTop: 100, 
-        marginLeft : 40 ,
-        alignItems : 'center'
+        marginTop: 100,
+        marginLeft: 40,
+        alignItems: 'center'
 
     },
     content: {
-              
-        alignSelf : 'center' ,
-        marginTop : 20,
-        margin : 20 ,
+
+        alignSelf: 'center',
+        marginTop: 20,
+        margin: 20,
         transition: theme.transitions.create('margin', {
             easing: theme.transitions.easing.sharp,
             duration: theme.transitions.duration.leavingScreen,
         }),
-     
-        
+
+
     },
     contentShift: {
         transition: theme.transitions.create('margin', {
@@ -140,7 +137,7 @@ export default function PersistentDrawerLeft() {
                 }}
             >
                 <div className={classes.drawerHeader}>
-                    
+
                 </div>
                 <Divider />
                 <List>
@@ -163,7 +160,9 @@ export default function PersistentDrawerLeft() {
             </Drawer>
             <div className={classes.container} >
                 <div className={classes.content}>
-                    <PieContainer className={classes.content} />
+                    <PieContainer className={classes.content}  >
+                        {   DisplayPie1() }
+                    </PieContainer>
                 </div>
                 <div className={classes.content}>
                     <PieContainer className={classes.content} />
