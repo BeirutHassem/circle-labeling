@@ -1,6 +1,5 @@
 export default function randomizeData(size = 11) {
     let result = []
-
     for (let i = 0; i < size; i++) {
         result[i] = {
             label: randomText(getRandomInt(1, 10)),
@@ -8,7 +7,6 @@ export default function randomizeData(size = 11) {
         }
     }
     return normilizeData(result)
-
 }
 
 const getRandomInt = (min, max) => {

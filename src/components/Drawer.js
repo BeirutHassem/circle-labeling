@@ -17,6 +17,7 @@ import InboxIcon from '@material-ui/icons/MoveToInbox';
 import MailIcon from '@material-ui/icons/Mail';
 import PieContainer from './PieContainer';
 import DisplayPie1 from '../utils/functions'
+import DataList from './DataList';
 const drawerWidth = 240;
 
 const useStyles = makeStyles((theme) => ({
@@ -69,6 +70,10 @@ const useStyles = makeStyles((theme) => ({
         alignItems: 'center'
 
     },
+    dataList: {
+        display: "block" ,
+
+    },
     content: {
 
         alignSelf: 'center',
@@ -112,6 +117,7 @@ export default function PersistentDrawerLeft() {
                     [classes.appBarShift]: open,
                 })}
             >
+
                 <Toolbar>
                     <IconButton
                         color="inherit"
@@ -127,6 +133,7 @@ export default function PersistentDrawerLeft() {
           </Typography>
                 </Toolbar>
             </AppBar>
+
             <Drawer
                 className={classes.drawer}
                 variant="persistent"
@@ -158,10 +165,15 @@ export default function PersistentDrawerLeft() {
                     ))}
                 </List>
             </Drawer>
+         
             <div className={classes.container} >
+                <div className={classes.dataList}>
+                <DataList  />
+
+                </div>
                 <div className={classes.content}>
                     <PieContainer className={classes.content}  >
-                        {   DisplayPie1() }
+                        {DisplayPie1()}
                     </PieContainer>
                 </div>
                 <div className={classes.content}>
