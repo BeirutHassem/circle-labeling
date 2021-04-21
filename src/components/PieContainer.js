@@ -10,10 +10,10 @@ import * as d3 from 'd3';
 
 const useStyles = makeStyles({
   root: {
-    maxWidth: 345,
+    minWidth: 345,
   },
   media: {
-    height: 140,
+    minHeight: 140,
   },
 });
 
@@ -23,8 +23,8 @@ export default function PieContainer({children}) {
     <Card className={classes.root}>
       <CardActionArea>
         <CardContent>
-          <div style={{ width: 400, height: 400 }} >
-          {children}
+          <div style={{ minWidth: 600,  minHeight: 600  , margin : 20}} >
+            {children}
           </div>
         </CardContent>
       </CardActionArea>

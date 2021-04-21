@@ -9,13 +9,18 @@ const useStyles = makeStyles({
     root: {
         minWidth: 27,
         maxHeight: 200, 
-        borderLeft : "#453234" ,
-        margin : 5
+        margin : 5 , 
+        border : "solid" , 
+        borderLeftColor : "red",
+        borderRadius : 5
+
     },
     bullet: {
         display: 'inline-block',
         margin: '0 2px',
         transform: 'scale(0.8)',
+        borderColor : 'red',
+
     },
     title: {
         fontSize: 14,
@@ -30,7 +35,7 @@ export default function DataItem({ item }) {
     const classes = useStyles();
     return (
         <Card className={classes.root}>
-            <CardContent>
+            <CardContent className={classes.bullet}>
             <Typography variant="h5" component="h2">
                 {item.label}
         </Typography>

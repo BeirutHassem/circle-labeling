@@ -18,6 +18,8 @@ import MailIcon from '@material-ui/icons/Mail';
 import PieContainer from './PieContainer';
 import DisplayPie1 from '../utils/functions'
 import DataList from './DataList';
+import CircleChart from './CircleChart'
+
 const drawerWidth = 240;
 
 const useStyles = makeStyles((theme) => ({
@@ -54,7 +56,6 @@ const useStyles = makeStyles((theme) => ({
     drawerHeader: {
         display: 'flex',
         alignItems: 'center',
-
         padding: theme.spacing(0, 1),
         // necessary for content to be below app bar
         ...theme.mixins.toolbar,
@@ -71,7 +72,7 @@ const useStyles = makeStyles((theme) => ({
 
     },
     dataList: {
-        display: "block" ,
+        display: "block",
 
     },
     content: {
@@ -133,7 +134,6 @@ export default function PersistentDrawerLeft() {
           </Typography>
                 </Toolbar>
             </AppBar>
-
             <Drawer
                 className={classes.drawer}
                 variant="persistent"
@@ -165,30 +165,36 @@ export default function PersistentDrawerLeft() {
                     ))}
                 </List>
             </Drawer>
-         
+
             <div className={classes.container} >
                 <div className={classes.dataList}>
-                <DataList  />
-
+                    <DataList />
                 </div>
                 <div className={classes.content}>
                     <PieContainer className={classes.content}  >
-                        {DisplayPie1()}
+                        <CircleChart />
                     </PieContainer>
                 </div>
                 <div className={classes.content}>
-                    <PieContainer className={classes.content} />
+                    <PieContainer className={classes.content}>
+                        <CircleChart />
+                    </PieContainer>
                 </div>
                 <div className={classes.content}>
-                    <PieContainer className={classes.content} />
+                    <PieContainer className={classes.content} >
+                        <CircleChart />
+                    </PieContainer>
                 </div>
                 <div className={classes.content}>
-                    <PieContainer className={classes.content} />
+                    <PieContainer className={classes.content} >
+                        <CircleChart />
+                    </PieContainer>
                 </div>
                 <div className={classes.content}>
-                    <PieContainer className={classes.content} />
+                    <PieContainer className={classes.content} >
+                        <CircleChart />
+                    </PieContainer>
                 </div>
-
             </div>
         </div>
     );

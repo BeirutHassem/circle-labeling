@@ -4,6 +4,7 @@ import React from "react";
 import ReactDOM from "react-dom";
 import PersistentDrawerLeft from "./components/Drawer"
 import randomizeData from "./utils/randomizeData"
+import TryComponent from './utils/TryComponent';
 
 // Create a Context
 export const DataContext = React.createContext(randomizeData());
@@ -12,11 +13,17 @@ export const DataContext = React.createContext(randomizeData());
 
 function App() {
   return (
+
     <div className="App">
+
       <header className="App-header">
-        <PersistentDrawerLeft/>
+       <PersistentDrawerLeft/>
+
       </header>
+
+
     </div>
+
   );
 }
 
