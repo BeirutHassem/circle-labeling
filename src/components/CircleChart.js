@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import { useD3 } from '../hooks/useD3';
 import { DataContext } from '../App'
-import { displayPie, engleText, textArround, labelList, textAlgo1 } from '../utils/functions'
+import { displayPie, engleText, textArround, labelList, textAlgo1 , textAlgo2} from '../utils/functions'
 
 function CircleChart(props) {
     const value = useContext(DataContext);
@@ -24,10 +24,11 @@ function CircleChart(props) {
             }
 
             displayPie(svg, value)
-            //  textArround(svg , value)
+            //textArround(svg , value)
             //engleText(svg, value)
-            textAlgo1(svg, value)
+            //textAlgo1(svg, value)
             //labelList(svg , value)
+            textAlgo2(svg , value)
             //   props.textFunction(svg , value)
 
 

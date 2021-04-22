@@ -1,5 +1,6 @@
 import * as d3 from 'd3';
 import { StransitionText } from './StransitionText';
+import {Algo2} from './Algo2'
 
 const pie = d3.pie()
     .sort(null)
@@ -230,7 +231,46 @@ export const textAlgo1 = (svg, data) => {
     });
     const circle = { 'r': outer, 'o': { 'x': 0, 'y': 0 } };
     if (sliceList.length == co) {
-        var txtA = new StransitionText(textclas._groups[0], sliceList, circle, svg, data);
+        let txtA = new StransitionText(textclas._groups[0], sliceList, circle, svg, data);
+        txtA.main();
+    }
+}
+
+export const textAlgo2 = (svg, data) => {
+    svg
+        .select(".labels")
+        .attr("transform", "translate(" + 300 + "," + 300 + ")")
+
+    let textclas = svg.select(".labels")
+        .selectAll("text")
+        .data(pie(data), key)
+        .join('text')
+        .attr("dy", ".35em")
+        .attr("font-size", fontSize)
+        .text((d) => d.data.label)
+        .style("fill", 'none')
+
+    const outer = radius * 0.9;
+    const sliceList = [];
+    const co = data.length;
+
+    let centers = [];
+    let slices = svg.select(".slices").selectAll("path.slice").each(function (d) {
+        let start = {
+            'x': Math.cos(d.startAngle - Math.PI / 2) * outer,
+            'y': Math.sin(d.startAngle - Math.PI / 2) * outer
+        };
+        let end = {
+            'x': Math.cos(d.endAngle - Math.PI / 2) * outer,
+            'y': Math.sin(d.endAngle - Math.PI / 2) * outer
+        };
+        let center = { 'middle': midAngle(d) - Math.PI / 2 };
+        centers.push({ 'middle': midAngle(d) });
+        sliceList.push([start, end, center])
+    });
+    const circle = { 'r': outer, 'o': { 'x': 0, 'y': 0 } };
+    if (sliceList.length == co) {
+        let txtA = new Algo2(textclas._groups[0], sliceList, circle, svg, data);
         txtA.main();
     }
 }
