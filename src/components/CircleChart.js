@@ -2,11 +2,11 @@ import React, { useContext, useState } from 'react';
 import { useD3 } from '../hooks/useD3';
 import * as d3 from 'd3';
 import { DataContext } from '../App'
-import { displayPie, engleText, textArround } from '../utils/functions'
+import { displayPie, engleText, textArround ,labelList} from '../utils/functions'
 import node from '../utils/circle';
 import { Update } from '@material-ui/icons';
 
-function CircleChart() {
+function CircleChart(props) {
     const value = useContext(DataContext);
 
     const ref = useD3(
@@ -40,33 +40,11 @@ function CircleChart() {
                    // .attr("transform", "translate(" + 300+ "," + 300 + ")");
             }
 
-            let slices = svg.select(".slices")
-                .selectAll("path.slice")
-                .data(pie(value), key)
-                .join(
-                    enter => {
-                        enter.append('path')
-                            .attr("d", arc)
-                            .style("fill-opacity", 0)
-                            .style("fill", (d) => d.data.color)
-                            .attr("class", "slice")
-                            .transition()
-                            .duration(1500)
-                            .style("fill-opacity", 1)
-                    },
-                    update => {
-                        update.attr("d", arc)
-                            .style("fill", (d) => d.data.color)
-                            .attr("class", "slice")
-                    },
-                    exit => {
-                        exit
-                            .transition()
-                            .remove();
-                    }
-                )
-           //  textArround(svg , value)
-             engleText(svg, value)
+            displayPie(svg , value)
+            //  textArround(svg , value)
+            // engleText(svg, value)
+            //labelList(svg , value)
+       //   props.textFunction(svg , value)
             
 
             /* slices.transition()

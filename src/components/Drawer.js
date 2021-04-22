@@ -20,6 +20,8 @@ import DisplayPie1 from '../utils/functions'
 import DataList from './DataList';
 import CircleChart from './CircleChart'
 
+import { displayPie, engleText, textArround } from '../utils/functions'
+
 const drawerWidth = 240;
 
 const useStyles = makeStyles((theme) => ({
@@ -177,7 +179,9 @@ export default function PersistentDrawerLeft() {
                 </div>
                 <div className={classes.content}>
                     <PieContainer className={classes.content}>
-                        <CircleChart />
+                        <CircleChart
+                            textFunction = {textArround} // its a function with 2 parameters (svg , data)
+                        />
                     </PieContainer>
                 </div>
                 <div className={classes.content}>
