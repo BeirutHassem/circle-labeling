@@ -19,6 +19,10 @@ const useStyles = makeStyles({
 
 export default function PieContainer({children}) {
   const classes = useStyles();
+  const downloadSvg = () =>{
+    console.log('download')
+   // try to get children function
+  }
   return (
     <Card className={classes.root}>
       <CardActionArea>
@@ -29,7 +33,7 @@ export default function PieContainer({children}) {
         </CardContent>
       </CardActionArea>
       <CardActions>
-        <Button size="small" color="primary">
+        <Button size="small" color="primary" onClick ={downloadSvg} >
           Download
         </Button>
       </CardActions>

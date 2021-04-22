@@ -2,7 +2,7 @@ import * as d3 from 'd3';
 export default function randomizeData(size = 11) {
     let color = d3.scaleLinear()
         .domain([0, size])
-        .range(["dodgerblue", "orange"])
+        .range(["dodgerblue", "tomato"])
       //  .interpolate(d3.interpolateHcl);
     let result = []
     for (let i = 0; i < size; i++) {

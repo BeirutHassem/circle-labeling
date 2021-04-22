@@ -1,6 +1,7 @@
 import * as d3 from 'd3';
 import { StransitionText } from './StransitionText';
 import { Algo2 } from './Algo2'
+import { colors } from '@material-ui/core';
 
 const pie = d3.pie()
     .sort(null)
@@ -70,6 +71,101 @@ export const displayPie = (svg, data) => {
                     .remove();
             }
         )
+
+    svg.select(".slices")
+        .selectAll("path.slice")
+        .on('mouseover', function (d) {
+            // Highlight the nodes: every node is green except of him
+            const color = d3.select(this).style('fill')
+            svg.select(".slices")
+                .selectAll("path.slice")
+                .style('fill', "#eee")
+            d3.select(this).style('fill', color)
+
+          
+            svg.select(".labels")
+                .selectAll("text")
+                .data(pie(data), key)
+                .join(
+                    enter => {
+
+                    },
+                    update => {
+                        update
+                            .transition()
+                            .style("fill", (d) => {
+                                if (d.data.color == color) {
+                                    return color
+                                } else {
+                                    return '#eee'
+                                }
+                            })
+
+                    },
+                    exit => {
+                        exit
+                            .transition()
+                            .remove();
+                    }
+                )
+
+        })
+
+    svg.select(".slices")
+        .selectAll("path.slice")
+        .on('mouseout', function (d) {
+
+
+            svg.select(".slices")
+                .selectAll("path.slice")
+                .data(pie(data), key)
+                .join(
+                    enter => {
+                        enter.append('path')
+                            .attr("d", arc)
+                            .style("fill-opacity", 0)
+                            .style("fill", (d) => d.data.color)
+                            .attr("class", "slice")
+                            .transition()
+                            .duration(1500)
+                            .style("fill-opacity", 1)
+                    },
+                    update => {
+                        update.attr("d", arc)
+                            .transition()
+                            .style("fill", (d) => d.data.color)
+                            .attr("class", "slice")
+                    },
+                    exit => {
+                        exit
+                            .transition()
+                            .remove();
+                    }
+                )
+
+            svg.select(".labels")
+                .selectAll("text")
+                .data(pie(data), key)
+                .join(
+                    enter => {
+
+                    },
+                    update => {
+                        update
+                            .transition()
+                            .style("fill", (d) => d.data.color)
+
+                    },
+                    exit => {
+                        exit
+                            .transition()
+                            .remove();
+                    }
+                )
+
+
+        })
+
 };
 
 /*
@@ -90,7 +186,7 @@ export let engleText = (svg, data) => {
         .attr("font-size", fontSize)
         .text((d) => d.data.label)
         .style("fill", (d) => d.data.color)
-    
+
 
     text.transition()
         .attrTween("transform", (d, i, e) => {
