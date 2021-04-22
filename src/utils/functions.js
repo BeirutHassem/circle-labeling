@@ -1,28 +1,27 @@
 import * as d3 from 'd3';
+import { StransitionText } from './StransitionText';
 
-
-let pie = d3.pie()
+const pie = d3.pie()
     .sort(null)
     .value((d) => d.value)
 
-let width = 300,
-    height = 300,
-    radius = Math.min(width, height) / 2
+const key = (d) => d.data.label;
 
-let fontSize = 20
-
+const width = 400,
+    height = 400
+const radius = Math.min(width, height) / 2
 
 const arc = d3.arc()
     .outerRadius(radius * 0.6)
     .innerRadius(radius * 0.5);
 
-let outerArc = d3.arc()
+export const fontSize = 20
+
+const outerArc = d3.arc()
     .innerRadius(radius * 0.9)
     .outerRadius(radius * 0.9);
 
-let key = (d) => d.data.label;
-
-let midAngle = (d) => d.startAngle + (d.endAngle - d.startAngle) / 2
+const midAngle = (d) => d.startAngle + (d.endAngle - d.startAngle) / 2
 
 
 /*
@@ -121,7 +120,7 @@ export const textArround = (svg, data) => {
                 .attr("id", "donutArc" + i)
                 .attr("d", newArc)
                 .attr("transform", "translate(" + 300 + "," + 300 + ")")
-                .style("fill", "none"); //none */
+                .style("fill", "none");
         });
     let text = svg.select(".label")
         .selectAll("text")
@@ -144,10 +143,10 @@ export const textArround = (svg, data) => {
 
 export const labelList = (svg, data) => {
     svg
-        .select(".label")
+        .select(".labels")
         .attr("transform", "translate(" + 300 + "," + 300 + ")")
 
-    let text = svg.select(".label")
+    let text = svg.select(".labels")
         .selectAll("text")
         .data(pie(data), key)
         .join('text')
@@ -174,9 +173,10 @@ export const labelList = (svg, data) => {
             e[i]._current = interpolate(0);
             return (t) => midAngle(interpolate(t)) < Math.PI ? "start" : "end";
         })
-    text
-        .exit().transition()
-        .remove();
+    text.exit()
+        .transition()
+        .remove()
+
     svg.append("g")
         .attr("class", "lines")
         .attr("transform", "translate(" + 300 + "," + 300 + ")")
@@ -194,6 +194,44 @@ export const labelList = (svg, data) => {
         }).
         style("fill", 'none')
         .style("stroke", d => d.data.color)
+}
 
+export const textAlgo1 = (svg, data) => {
+    svg
+        .select(".labels")
+        .attr("transform", "translate(" + 300 + "," + 300 + ")")
+
+    let textclas = svg.select(".labels")
+        .selectAll("text")
+        .data(pie(data), key)
+        .join('text')
+        .attr("dy", ".35em")
+        .attr("font-size", fontSize)
+        .text((d) => d.data.label)
+        .style("fill", 'none')
+
+    const outer = radius * 0.9;
+    const sliceList = [];
+    const co = data.length;
+
+    let centers = [];
+    let slices = svg.select(".slices").selectAll("path.slice").each(function (d) {
+        let start = {
+            'x': Math.cos(d.startAngle - Math.PI / 2) * outer,
+            'y': Math.sin(d.startAngle - Math.PI / 2) * outer
+        };
+        let end = {
+            'x': Math.cos(d.endAngle - Math.PI / 2) * outer,
+            'y': Math.sin(d.endAngle - Math.PI / 2) * outer
+        };
+        let center = { 'middle': midAngle(d) - Math.PI / 2 };
+        centers.push({ 'middle': midAngle(d) });
+        sliceList.push([start, end, center])
+    });
+    const circle = { 'r': outer, 'o': { 'x': 0, 'y': 0 } };
+    if (sliceList.length == co) {
+        var txtA = new StransitionText(textclas._groups[0], sliceList, circle, svg, data);
+        txtA.main();
+    }
 }
 

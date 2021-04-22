@@ -1,30 +1,13 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext } from 'react';
 import { useD3 } from '../hooks/useD3';
-import * as d3 from 'd3';
 import { DataContext } from '../App'
-import { displayPie, engleText, textArround ,labelList} from '../utils/functions'
-import node from '../utils/circle';
-import { Update } from '@material-ui/icons';
+import { displayPie, engleText, textArround, labelList, textAlgo1 } from '../utils/functions'
 
 function CircleChart(props) {
     const value = useContext(DataContext);
 
     const ref = useD3(
         (svg) => {
-            const pie = d3.pie()
-                .sort(null)
-                .value((d) => d.value)
-
-            const key = (d) => d.data.label;
-
-            const width = 400,
-                height = 400
-            const radius = Math.min(width, height) / 2
-
-            const arc = d3.arc()
-                .outerRadius(radius * 0.6)
-                .innerRadius(radius * 0.5);
-
             svg
                 .attr("width", "100%")
                 .attr("height", 600)
@@ -34,18 +17,19 @@ function CircleChart(props) {
                     .attr("class", "slices")
                     .attr("transform", "translate(" + 300 + "," + 300 + ")");
             }
-            if (svg.select(".label").empty()) {
+            if (svg.select(".labels").empty()) {
                 svg.append("g")
-                    .attr("class", "label")
-                   // .attr("transform", "translate(" + 300+ "," + 300 + ")");
+                    .attr("class", "labels")
+                // .attr("transform", "translate(" + 300+ "," + 300 + ")");
             }
 
-            displayPie(svg , value)
+            displayPie(svg, value)
             //  textArround(svg , value)
-            // engleText(svg, value)
+            //engleText(svg, value)
+            textAlgo1(svg, value)
             //labelList(svg , value)
-       //   props.textFunction(svg , value)
-            
+            //   props.textFunction(svg , value)
+
 
             /* slices.transition()
                   .attrTween("d", (d) => {
@@ -57,14 +41,14 @@ function CircleChart(props) {
                       return (t) => arc(interpolate(t));
               }) */
 
-        
+
 
         },
         [value]
     );
     return (
         <svg
-         
+
             ref={ref}
         />
     );
