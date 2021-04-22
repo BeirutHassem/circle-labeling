@@ -18,7 +18,12 @@ import MailIcon from '@material-ui/icons/Mail';
 import PieContainer from './PieContainer';
 import DisplayPie1 from '../utils/functions'
 import DataList from './DataList';
-import CircleChart from './CircleChart'
+//import CircleChart from './CircleChart'
+import CircleAlgo1 from './CircleAlgo1'
+import CirlceAlgo2 from './CirlceAlgo2'
+import CircleLabelList from './CircleLabelList'
+import CircleEngleText from './CircleEngleText'
+import CirclerAroundText from './CirclerAroundText'
 
 import { displayPie, engleText, textArround } from '../utils/functions'
 
@@ -172,31 +177,30 @@ export default function PersistentDrawerLeft() {
                 <div className={classes.dataList}>
                     <DataList />
                 </div>
+                
+                <div className={classes.content}>
+                    <PieContainer className={classes.content} >
+                        <CircleEngleText/>
+                    </PieContainer>
+                </div>
+                <div className={classes.content}>
+                    <PieContainer className={classes.content} >
+                        <CircleLabelList />
+                    </PieContainer>
+                </div>
                 <div className={classes.content}>
                     <PieContainer className={classes.content}  >
-                        <CircleChart />
+                        <CircleAlgo1 />
                     </PieContainer>
                 </div>
                 <div className={classes.content}>
                     <PieContainer className={classes.content}>
-                        <CircleChart
-                            textFunction = {textArround} // its a function with 2 parameters (svg , data)
-                        />
+                        <CirlceAlgo2 />
                     </PieContainer>
                 </div>
                 <div className={classes.content}>
                     <PieContainer className={classes.content} >
-                        <CircleChart />
-                    </PieContainer>
-                </div>
-                <div className={classes.content}>
-                    <PieContainer className={classes.content} >
-                        <CircleChart />
-                    </PieContainer>
-                </div>
-                <div className={classes.content}>
-                    <PieContainer className={classes.content} >
-                        <CircleChart />
+                        <CirclerAroundText />
                     </PieContainer>
                 </div>
             </div>

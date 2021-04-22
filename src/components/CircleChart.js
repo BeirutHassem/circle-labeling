@@ -8,20 +8,6 @@ function CircleChart(props) {
 
     const ref = useD3(
         (svg) => {
-            svg
-                .attr("width", "100%")
-                .attr("height", 600)
-
-            if (svg.select(".slices").empty()) {
-                svg.append("g")
-                    .attr("class", "slices")
-                    .attr("transform", "translate(" + 300 + "," + 300 + ")");
-            }
-            if (svg.select(".labels").empty()) {
-                svg.append("g")
-                    .attr("class", "labels")
-                // .attr("transform", "translate(" + 300+ "," + 300 + ")");
-            }
 
             displayPie(svg, value)
             //textArround(svg , value)
@@ -49,7 +35,6 @@ function CircleChart(props) {
     );
     return (
         <svg
-
             ref={ref}
         />
     );

@@ -1,6 +1,6 @@
 import * as d3 from 'd3';
 import { StransitionText } from './StransitionText';
-import {Algo2} from './Algo2'
+import { Algo2 } from './Algo2'
 
 const pie = d3.pie()
     .sort(null)
@@ -31,6 +31,20 @@ const midAngle = (d) => d.startAngle + (d.endAngle - d.startAngle) / 2
     3- The data object is an array of {label : string , value : double}
 */
 export const displayPie = (svg, data) => {
+
+    svg
+        .attr("width", "100%")
+        .attr("height", 600)
+
+    if (svg.select(".slices").empty()) {
+        svg.append("g")
+            .attr("class", "slices")
+            .attr("transform", "translate(" + 300 + "," + 300 + ")");
+    }
+    if (svg.select(".labels").empty()) {
+        svg.append("g")
+            .attr("class", "labels")
+    }
     svg.select(".slices")
         .selectAll("path.slice")
         .data(pie(data), key)
@@ -65,10 +79,10 @@ export const displayPie = (svg, data) => {
 */
 export let engleText = (svg, data) => {
     svg
-        .select(".label")
+        .select(".labels")
         .attr("transform", "translate(" + 300 + "," + 300 + ")")
 
-    let text = svg.select(".label")
+    let text = svg.select(".labels")
         .selectAll("text")
         .data(pie(data), key)
         .join('text')
@@ -76,7 +90,7 @@ export let engleText = (svg, data) => {
         .attr("font-size", fontSize)
         .text((d) => d.data.label)
         .style("fill", (d) => d.data.color)
-
+    
 
     text.transition()
         .attrTween("transform", (d, i, e) => {
@@ -123,7 +137,7 @@ export const textArround = (svg, data) => {
                 .attr("transform", "translate(" + 300 + "," + 300 + ")")
                 .style("fill", "none");
         });
-    let text = svg.select(".label")
+    let text = svg.select(".labels")
         .selectAll("text")
         .data(pie(data), key)
         .join('text')
