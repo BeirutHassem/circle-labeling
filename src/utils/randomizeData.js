@@ -1,4 +1,6 @@
 import * as d3 from 'd3';
+
+
 export default function randomizeData(size = 11) {
     let color = d3.scaleLinear()
         .domain([0, size])

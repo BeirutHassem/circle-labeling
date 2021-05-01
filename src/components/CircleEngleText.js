@@ -1,17 +1,17 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import { useD3 } from '../hooks/useD3';
-import { DataContext } from '../App'
 import { displayPie, engleText} from '../utils/functions'
+import { useDataContext } from '../utils/dataContext'
 
 export default function CircleEngleText(props) {
-    const value = useContext(DataContext);
-
+ 
+    const { data } = useDataContext()
     const ref = useD3(
         (svg) => {
-            displayPie(svg, value)
-            engleText(svg, value)
+            displayPie(svg, data)
+            engleText(svg, data)
         },
-        [value]
+        [data]
     );
     return (
         <svg

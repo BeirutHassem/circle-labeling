@@ -14,7 +14,7 @@ const width = 400,
 const radius = Math.min(width, height) / 2
 
 const arc = d3.arc()
-    .outerRadius(radius * 0.6)
+    .outerRadius(radius * 0.8)
     .innerRadius(radius * 0.5);
 
 export const fontSize = 20

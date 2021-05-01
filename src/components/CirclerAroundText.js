@@ -1,17 +1,16 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import { useD3 } from '../hooks/useD3';
-import { DataContext } from '../App'
 import { displayPie, textArround } from '../utils/functions'
-
+import { useDataContext } from '../utils/dataContext'
 export default function CirclerAroundText(props) {
-    const value = useContext(DataContext);
 
+    const { data } = useDataContext()
     const ref = useD3(
         (svg) => {
-            displayPie(svg, value)
-            textArround(svg, value)
+            displayPie(svg, data)
+            textArround(svg, data)
         },
-        [value]
+        [data]
     );
     return (
         <svg

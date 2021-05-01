@@ -1,4 +1,4 @@
-import React from 'react';
+import React , {useContext} from 'react';
 import clsx from 'clsx';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
@@ -24,6 +24,9 @@ import CirlceAlgo2 from './CirlceAlgo2'
 import CircleLabelList from './CircleLabelList'
 import CircleEngleText from './CircleEngleText'
 import CirclerAroundText from './CirclerAroundText'
+import {useDataContext} from '../utils/dataContext'
+
+import { DataContext } from '../App'
 
 import { displayPie, engleText, textArround } from '../utils/functions'
 
@@ -106,8 +109,11 @@ const useStyles = makeStyles((theme) => ({
 export default function PersistentDrawerLeft() {
     const classes = useStyles();
     const theme = useTheme();
-    const [open, setOpen] = React.useState(true);
-
+    const {addData, data} = useDataContext()
+    const [open, setOpen] = React.useState(false);
+    const doSomeThing = () => {
+        addData()
+    }
     const handleDrawerOpen = () => {
         setOpen(true);
     };
@@ -156,7 +162,7 @@ export default function PersistentDrawerLeft() {
                 <Divider />
                 <List>
                     {['Randomize slice weights', 'Zoom', 'Remove overlaps', 'Randomize'].map((text, index) => (
-                        <ListItem button key={text}>
+                        <ListItem button = {true} key={text} onClick = {doSomeThing}>
                             <ListItemIcon>{index % 2 === 0 ? <IconButton /> : <MailIcon />}</ListItemIcon>
                             <ListItemText primary={text} />
                         </ListItem>
@@ -166,10 +172,11 @@ export default function PersistentDrawerLeft() {
                 <List>
                     {['Merge', 'Splite', 'Insert Data'].map((text, index) => (
                         <ListItem button key={text}>
-                            <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
+                            <ListItemIcon>{index % 2 === 0 ? <InboxIcon onClick = {doSomeThing}/> : <MailIcon />}</ListItemIcon>
                             <ListItemText primary={text} />
                         </ListItem>
                     ))}
+
                 </List>
             </Drawer>
 

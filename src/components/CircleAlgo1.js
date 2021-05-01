@@ -2,16 +2,16 @@ import React, { useContext } from 'react';
 import { useD3 } from '../hooks/useD3';
 import { DataContext } from '../App'
 import { displayPie, textAlgo1 } from '../utils/functions'
+import { useDataContext } from '../utils/dataContext'
 
 export default function CircleAlgo1(props) {
-    const value = useContext(DataContext);
-
+    const { data } = useDataContext()
     const ref = useD3(
         (svg) => {
-            displayPie(svg, value)
-            textAlgo1(svg, value)
+            displayPie(svg, data)
+            textAlgo1(svg, data)
         },
-        [value]
+        [data]
     );
     return (
         <svg
