@@ -1,6 +1,5 @@
-import React, { useContext } from 'react';
+import React  from 'react';
 import { useD3 } from '../hooks/useD3';
-import { DataContext } from '../App'
 import { displayPie, textAlgo1 } from '../utils/functions'
 import { useDataContext } from '../utils/dataContext'
 

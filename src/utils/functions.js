@@ -2,12 +2,13 @@ import * as d3 from 'd3';
 import { StransitionText } from './StransitionText';
 import { Algo2 } from './Algo2'
 import { colors } from '@material-ui/core';
+import { transition } from 'd3';
 
 const pie = d3.pie()
     .sort(null)
     .value((d) => d.value)
 
-const key = (d) => d.data.label;
+const key = (d) => d.data.id;
 
 const width = 400,
     height = 400
@@ -53,7 +54,7 @@ export const displayPie = (svg, data) => {
             enter => {
                 enter.append('path')
                     .attr("d", arc)
-                    .style("fill-opacity", 0)
+                    //  .style("fill-opacity", 0)
                     .style("fill", (d) => d.data.color)
                     .attr("class", "slice")
                     .transition()
@@ -82,7 +83,6 @@ export const displayPie = (svg, data) => {
                 .style('fill', "#eee")
             d3.select(this).style('fill', color)
 
-          
             svg.select(".labels")
                 .selectAll("text")
                 .data(pie(data), key)
@@ -123,7 +123,7 @@ export const displayPie = (svg, data) => {
                     enter => {
                         enter.append('path')
                             .attr("d", arc)
-                            .style("fill-opacity", 0)
+                            // .style("fill-opacity", 0)
                             .style("fill", (d) => d.data.color)
                             .attr("class", "slice")
                             .transition()
@@ -181,38 +181,52 @@ export let engleText = (svg, data) => {
     let text = svg.select(".labels")
         .selectAll("text")
         .data(pie(data), key)
-        .join('text')
-        .attr("dy", ".35em")
-        .attr("font-size", fontSize)
-        .text((d) => d.data.label)
-        .style("fill", (d) => d.data.color)
+        .join(enter => {
+            console.log(enter)
+            enter.append('text')
+                .attr("dy", ".35em")
+                .attr("font-size", fontSize)
+                .text((d) => d.data.label)
+                .style("fill", (d) => d.data.color)
+                .transition()
+                .attrTween("transform", (d, i, e) => {
+                    e[i]._current = e[i]._current || d;
+                    let interpolate = d3.interpolate(e[i]._current, d);
+                    e[i]._current = interpolate(0);
+                    return (t) => {
+                        let d2 = interpolate(t);
+                        let pos = [radius * Math.cos(midAngle(d2) - Math.PI / 2), radius * Math.sin(midAngle(d2) - Math.PI / 2)]
+                        if (midAngle(d2) < Math.PI) {
+                            return "translate(" + pos + ") rotate(" + (midAngle(d2) * 180 / Math.PI - 90) + ")";
+                        }
+                        else
+                            return "translate(" + pos + ") rotate(" + (((midAngle(d2) * 180 / Math.PI) - 90) + 180) + ")";
+                    };
+                })
+                .styleTween("text-anchor", (d, i, e) => {
+                    e[i]._current = e[i]._current || d;
+                    let interpolate = d3.interpolate(e[i]._current, d);
+                    e[i]._current = interpolate(0);
+                    return (t) => midAngle(interpolate(t)) < Math.PI ? "start" : "end";
+                })
+
+        },
+            update => {
+                update
+                    .text((d) => d.data.label)
+                    .style("fill", (d) => d.data.color)
+                    .transition()
+                    .attr("font-size", fontSize )
+            },
+            exit => {
+                exit
+                    .transition()
+                    .remove()
+            }
+        )
 
 
-    text.transition()
-        .attrTween("transform", (d, i, e) => {
-            e[i]._current = e[i]._current || d;
-            let interpolate = d3.interpolate(e[i]._current, d);
-            e[i]._current = interpolate(0);
-            return (t) => {
-                let d2 = interpolate(t);
-                let pos = [radius * Math.cos(midAngle(d2) - Math.PI / 2), radius * Math.sin(midAngle(d2) - Math.PI / 2)]
-                if (midAngle(d2) < Math.PI) {
-                    return "translate(" + pos + ") rotate(" + (midAngle(d2) * 180 / Math.PI - 90) + ")";
-                }
-                else
-                    return "translate(" + pos + ") rotate(" + (((midAngle(d2) * 180 / Math.PI) - 90) + 180) + ")";
-            };
-        })
-        .styleTween("text-anchor", (d, i, e) => {
-            e[i]._current = e[i]._current || d;
-            let interpolate = d3.interpolate(e[i]._current, d);
-            e[i]._current = interpolate(0);
-            return (t) => midAngle(interpolate(t)) < Math.PI ? "start" : "end";
-        })
 
-    text.exit()
-        .transition()
-        .remove();
 }
 
 export const textArround = (svg, data) => {

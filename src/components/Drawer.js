@@ -1,22 +1,22 @@
-import React , {useContext} from 'react';
+import React from 'react';
 import clsx from 'clsx';
-import { makeStyles, useTheme } from '@material-ui/core/styles';
-import Drawer from '@material-ui/core/Drawer';
-import CssBaseline from '@material-ui/core/CssBaseline';
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
-import List from '@material-ui/core/List';
-import Typography from '@material-ui/core/Typography';
-import Divider from '@material-ui/core/Divider';
-import IconButton from '@material-ui/core/IconButton';
+import { makeStyles } from '@material-ui/core/styles';
+import {
+    ListItemIcon,
+    ListItemText,
+    ListItem,
+    IconButton,
+    Divider,
+    Drawer,
+    Typography,
+    Toolbar,
+    List,
+    SvgIcon ,
+    AppBar,
+    CssBaseline
+} from '@material-ui/core';
 import MenuIcon from '@material-ui/icons/Menu';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
-import InboxIcon from '@material-ui/icons/MoveToInbox';
-import MailIcon from '@material-ui/icons/Mail';
 import PieContainer from './PieContainer';
-import DisplayPie1 from '../utils/functions'
 import DataList from './DataList';
 //import CircleChart from './CircleChart'
 import CircleAlgo1 from './CircleAlgo1'
@@ -24,11 +24,8 @@ import CirlceAlgo2 from './CirlceAlgo2'
 import CircleLabelList from './CircleLabelList'
 import CircleEngleText from './CircleEngleText'
 import CirclerAroundText from './CirclerAroundText'
-import {useDataContext} from '../utils/dataContext'
-
-import { DataContext } from '../App'
-
-import { displayPie, engleText, textArround } from '../utils/functions'
+import { useDataContext } from '../utils/dataContext'
+import randomizeData from "../utils/randomizeData"
 
 const drawerWidth = 240;
 
@@ -108,11 +105,18 @@ const useStyles = makeStyles((theme) => ({
 
 export default function PersistentDrawerLeft() {
     const classes = useStyles();
-    const theme = useTheme();
-    const {addData, data} = useDataContext()
+    const { addData, data } = useDataContext()
+
     const [open, setOpen] = React.useState(false);
-    const doSomeThing = () => {
-        addData()
+
+    const randData = () => {
+        addData(randomizeData())
+    }
+
+    const updateText = () => {
+        let triy = data 
+        triy[2].label = "ayoub nitoru"
+        addData(triy)
     }
     const handleDrawerOpen = () => {
         setOpen(true);
@@ -161,18 +165,22 @@ export default function PersistentDrawerLeft() {
                 </div>
                 <Divider />
                 <List>
-                    {['Randomize slice weights', 'Zoom', 'Remove overlaps', 'Randomize'].map((text, index) => (
-                        <ListItem button = {true} key={text} onClick = {doSomeThing}>
-                            <ListItemIcon>{index % 2 === 0 ? <IconButton /> : <MailIcon />}</ListItemIcon>
+                    {['Randomize slice weights', 'Zoom', 'Remove overlaps'].map((text, index) => (
+                        <ListItem button={true} key={text} onClick={updateText}>
+                            <ListItemIcon></ListItemIcon>
                             <ListItemText primary={text} />
                         </ListItem>
                     ))}
+                    <ListItem button={true} key={'Randomize'} onClick={randData}>
+                        <ListItemIcon><SvgIcon></SvgIcon></ListItemIcon>
+                        <ListItemText primary={'Randomize'} />
+                    </ListItem>
                 </List>
                 <Divider />
                 <List>
                     {['Merge', 'Splite', 'Insert Data'].map((text, index) => (
                         <ListItem button key={text}>
-                            <ListItemIcon>{index % 2 === 0 ? <InboxIcon onClick = {doSomeThing}/> : <MailIcon />}</ListItemIcon>
+                            <ListItemIcon></ListItemIcon>
                             <ListItemText primary={text} />
                         </ListItem>
                     ))}
@@ -184,10 +192,10 @@ export default function PersistentDrawerLeft() {
                 <div className={classes.dataList}>
                     <DataList />
                 </div>
-                
+
                 <div className={classes.content}>
                     <PieContainer className={classes.content} >
-                        <CircleEngleText/>
+                        <CircleEngleText />
                     </PieContainer>
                 </div>
                 <div className={classes.content}>

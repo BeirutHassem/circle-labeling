@@ -2,22 +2,19 @@ import React,{ useContext }  from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import GridList from '@material-ui/core/GridList';
 import {DataContext} from '../App'
-import GridListTile from '@material-ui/core/GridListTile';
-import GridListTileBar from '@material-ui/core/GridListTileBar';
-import IconButton from '@material-ui/core/IconButton';
-import StarBorderIcon from '@material-ui/icons/StarBorder';
 import DataItem from './DataItem';
-
+import { useDataContext } from '../utils/dataContext'
 const useStyles = makeStyles((theme) => ({
   root: {
     display: 'flex',
     flexWrap: 'wrap',
-    justifyContent: 'space-around',
+    justifyContent: 'space-between',
     overflow: 'hidden',
   },
   gridList: {
-    flexWrap: 'nowrap',
+    flexWrap: 'wrap',
     // Promote the list into his own layer on Chrome. This cost memory but helps keeping high FPS.
+    justifyContent:  'center' ,
     transform: 'translateZ(0)',
   },
   title: {
@@ -48,12 +45,13 @@ const useStyles = makeStyles((theme) => ({
  */
 export default function DataList() {
   const classes = useStyles();
-  const dataList = useContext(DataContext);
+  const { data } = useDataContext()
+
   return (
     <div className={classes.root}>
       <GridList className={classes.gridList} cols={2.5}>
-        {dataList.map((data) => (
-            <DataItem item={data} />
+        {data.map((data , indx) => (           
+            <DataItem item={data} index={indx} />
         ))}
       </GridList>
     </div>

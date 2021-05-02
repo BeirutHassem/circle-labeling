@@ -10,6 +10,7 @@ export default function randomizeData(size = 11) {
     for (let i = 0; i < size; i++) {
         let text = randomText(getRandomInt(1, 10))
         result[i] = {
+            id : i , 
             label: text,
             value: Math.random(),
             color: color(i) // change this to see better colors 
