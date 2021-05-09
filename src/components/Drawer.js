@@ -8,16 +8,26 @@ import {
     IconButton,
     Divider,
     Drawer,
+    Checkbox,
+    FormHelperText,
+    FormControlLabel,
+    FormGroup,
+    FormControl,
+    FormLabel,
     Typography,
     Toolbar,
+    Button,
+    Modal,
     List,
-    SvgIcon ,
+    SvgIcon,
     AppBar,
     CssBaseline
 } from '@material-ui/core';
+import { mergeData, spliteData } from '../utils/randomizeData'
 import MenuIcon from '@material-ui/icons/Menu';
 import PieContainer from './PieContainer';
 import DataList from './DataList';
+import MergeModal from './MergeModal'
 //import CircleChart from './CircleChart'
 import CircleAlgo1 from './CircleAlgo1'
 import CirlceAlgo2 from './CirlceAlgo2'
@@ -26,9 +36,24 @@ import CircleEngleText from './CircleEngleText'
 import CirclerAroundText from './CirclerAroundText'
 import { useDataContext } from '../utils/dataContext'
 import randomizeData from "../utils/randomizeData"
+import SpliteModal from './SpliteModal';
 
 const drawerWidth = 240;
 
+function rand() {
+    return Math.round(Math.random() * 20) - 10;
+}
+
+
+function getModalStyle() {
+    const top = 30 + rand();
+    const left = 50 + rand();
+    return {
+        top: `${top}%`,
+        left: `${left}%`,
+        transform: `translate(${-top}%, ${-left}%)`,
+    };
+}
 const useStyles = makeStyles((theme) => ({
     root: {
         display: 'flex',
@@ -82,6 +107,14 @@ const useStyles = makeStyles((theme) => ({
         display: "block",
 
     },
+    paper: {
+        position: 'absolute',
+        width: 400,
+        backgroundColor: theme.palette.background.paper,
+        border: '1px solid #eee',
+        boxShadow: theme.shadows[5],
+        padding: theme.spacing(2, 4, 3),
+    },
     content: {
 
         alignSelf: 'center',
@@ -106,18 +139,14 @@ const useStyles = makeStyles((theme) => ({
 export default function PersistentDrawerLeft() {
     const classes = useStyles();
     const { addData, data } = useDataContext()
-
     const [open, setOpen] = React.useState(false);
+    const [openModal, setOpenModal] = React.useState(false);
+    const [openModalSplite, setOpenModalSplite] = React.useState(false);
 
     const randData = () => {
         addData(randomizeData())
     }
 
-    const updateText = () => {
-        let triy = data 
-        triy[2].label = "ayoub nitoru"
-        addData(triy)
-    }
     const handleDrawerOpen = () => {
         setOpen(true);
     };
@@ -125,6 +154,32 @@ export default function PersistentDrawerLeft() {
     const handleDrawerClose = () => {
         setOpen(false);
     };
+    const handleModalOpen = () => {
+        setOpenModal(true);
+    };
+
+    const handleModalClose = () => {
+        setOpenModal(false);
+    };
+
+    const handleMergeSubmit = (data, selectedData) => {
+        handleModalClose()
+        addData(mergeData(data, selectedData))
+    }
+
+    const handleSpliteSubmit = ( selectedData) => {
+        handleModalSpliteClose()
+        addData(spliteData(data, selectedData))
+    }
+
+    const handleModalSpliteClose = () => {
+        setOpenModalSplite(false)
+    }
+
+    const handleModalSpliteOpen = () => {
+        setOpenModalSplite(true)
+    }
+
 
     return (
         <div className={classes.root}>
@@ -166,7 +221,7 @@ export default function PersistentDrawerLeft() {
                 <Divider />
                 <List>
                     {['Randomize slice weights', 'Zoom', 'Remove overlaps'].map((text, index) => (
-                        <ListItem button={true} key={text} onClick={updateText}>
+                        <ListItem button={true} key={text}>
                             <ListItemIcon></ListItemIcon>
                             <ListItemText primary={text} />
                         </ListItem>
@@ -178,15 +233,40 @@ export default function PersistentDrawerLeft() {
                 </List>
                 <Divider />
                 <List>
-                    {['Merge', 'Splite', 'Insert Data'].map((text, index) => (
+                    {['Insert Data'].map((text, index) => (
                         <ListItem button key={text}>
                             <ListItemIcon></ListItemIcon>
                             <ListItemText primary={text} />
                         </ListItem>
                     ))}
+                    <ListItem button={true} key={'Merge'} onClick={handleModalOpen} >
+                        <ListItemIcon></ListItemIcon>
+                        <ListItemText primary={'Merge'} />
+                    </ListItem>
+                    <ListItem button={true} key={'Splite'} onClick={handleModalSpliteOpen} >
+                        <ListItemIcon></ListItemIcon>
+                        <ListItemText primary={'Splite'} />
+                    </ListItem>
 
                 </List>
             </Drawer>
+            <Modal
+                open={openModal}
+                onClose={handleModalClose}
+                aria-labelledby="simple-modal-title"
+                aria-describedby="simple-modal-description"
+            >
+                <MergeModal data={data} callBack={handleMergeSubmit} />
+            </Modal>
+
+            <Modal
+                open={openModalSplite}
+                onClose={handleModalSpliteClose}
+                aria-labelledby="simple-modal-title"
+                aria-describedby="simple-modal-description"
+            >
+                <SpliteModal data={data.filter(e => e.children != null)} callback={handleSpliteSubmit} />
+            </Modal>
 
             <div className={classes.container} >
                 <div className={classes.dataList}>

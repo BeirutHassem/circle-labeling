@@ -213,10 +213,31 @@ export let engleText = (svg, data) => {
         },
             update => {
                 update
-                    .text((d) => d.data.label)
-                    .style("fill", (d) => d.data.color)
-                    .transition()
-                    .attr("font-size", fontSize )
+                .attr("dy", ".35em")
+                .attr("font-size", fontSize)
+                .text((d) => d.data.label)
+                .style("fill", (d) => d.data.color)
+                .transition()
+                .attrTween("transform", (d, i, e) => {
+                    e[i]._current = e[i]._current || d;
+                    let interpolate = d3.interpolate(e[i]._current, d);
+                    e[i]._current = interpolate(0);
+                    return (t) => {
+                        let d2 = interpolate(t);
+                        let pos = [radius * Math.cos(midAngle(d2) - Math.PI / 2), radius * Math.sin(midAngle(d2) - Math.PI / 2)]
+                        if (midAngle(d2) < Math.PI) {
+                            return "translate(" + pos + ") rotate(" + (midAngle(d2) * 180 / Math.PI - 90) + ")";
+                        }
+                        else
+                            return "translate(" + pos + ") rotate(" + (((midAngle(d2) * 180 / Math.PI) - 90) + 180) + ")";
+                    };
+                })
+                .styleTween("text-anchor", (d, i, e) => {
+                    e[i]._current = e[i]._current || d;
+                    let interpolate = d3.interpolate(e[i]._current, d);
+                    e[i]._current = interpolate(0);
+                    return (t) => midAngle(interpolate(t)) < Math.PI ? "start" : "end";
+                })
             },
             exit => {
                 exit

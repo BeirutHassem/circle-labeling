@@ -51,7 +51,7 @@ export default function DataList() {
     <div className={classes.root}>
       <GridList className={classes.gridList} cols={2.5}>
         {data.map((data , indx) => (           
-            <DataItem item={data} index={indx} />
+          <DataItem item={data} index={indx} key={data.id}/>
         ))}
       </GridList>
     </div>

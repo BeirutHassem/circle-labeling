@@ -79,10 +79,12 @@ export default function DataItem({ item, index }) {
     const handleSubmit = () => {
         console.log("submited !")
         handleEditing()
+        console.log(item)
         updateContext({
             label : inputText ,
             value : item.value , 
-            color : color
+            color : color ,
+            children : item.children
         })
     }
 
@@ -139,6 +141,9 @@ export default function DataItem({ item, index }) {
             <CardContent className={classes.content}>
                 <Typography variant="h5" component="h2" className={classes.header}>
                     {inputText}
+                </Typography>
+                <Typography variant="h6" component="h5" className={classes.header} color="textSecondary">
+                    {"" + Math.round((item.value * 100 + Number.EPSILON)* 100)   / 100 + "%" }
                 </Typography>
             </CardContent>
         </Card>
