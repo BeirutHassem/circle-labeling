@@ -41,6 +41,7 @@ const normilizeData = (data) => {
     for (let i = 0; i < size; i++) {
         data[i].value /= sum
     }
+    console.log(JSON.stringify(data))
     return data
 }
 

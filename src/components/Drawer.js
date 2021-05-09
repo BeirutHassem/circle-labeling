@@ -96,6 +96,18 @@ const useStyles = makeStyles((theme) => ({
     container: {
         display: "flex",
         justifyContent: 'center',
+        flexWrap: 'nowrap',
+        flexDirection: 'column',
+        marginTop: 100,
+        marginLeft: 40,
+        alignItems: 'center'
+
+    },
+
+
+    pieContainer: {
+        display: "flex",
+        justifyContent: 'center',
         flexWrap: 'wrap',
         flexDirection: 'row',
         marginTop: 100,
@@ -167,7 +179,7 @@ export default function PersistentDrawerLeft() {
         addData(mergeData(data, selectedData))
     }
 
-    const handleSpliteSubmit = ( selectedData) => {
+    const handleSpliteSubmit = (selectedData) => {
         handleModalSpliteClose()
         addData(spliteData(data, selectedData))
     }
@@ -179,11 +191,39 @@ export default function PersistentDrawerLeft() {
     const handleModalSpliteOpen = () => {
         setOpenModalSplite(true)
     }
-
+    const inputFile = React.useRef(null)
+    const [selectedFile, setSelectedFile] = React.useState(null);
+    //  inputFile.addEventListener("change", handleFiles, false);
+    function handleFiles(e) {
+        console.log(e.target.files) /* now you can work with the file list */
+        let importedFile = e.target.files[0];
+        let reader = new FileReader();
+        reader.onload = function () {
+            var fileContent = JSON.parse(reader.result);
+            console.log(fileContent)
+            addData(fileContent)
+            //randerTheData(fileContent)
+            // Do something with fileContent
+            // document.getElementById('json-file').innerHTML = fileContent;  
+        };
+        reader.readAsText(importedFile);
+        setSelectedFile(null)
+    }
+    const openFileBorwser = () => {
+        // `current` points to the mounted file input element
+        inputFile.current.click();
+    };
 
     return (
+
         <div className={classes.root}>
             <CssBaseline />
+            <input type='file' id='file'
+                accept=".json"
+                value={selectedFile}
+                ref={inputFile}
+                style={{ display: 'none' }}
+                onChange={handleFiles} />
             <AppBar
                 position="fixed"
                 className={clsx(classes.appBar, {
@@ -233,12 +273,10 @@ export default function PersistentDrawerLeft() {
                 </List>
                 <Divider />
                 <List>
-                    {['Insert Data'].map((text, index) => (
-                        <ListItem button key={text}>
-                            <ListItemIcon></ListItemIcon>
-                            <ListItemText primary={text} />
-                        </ListItem>
-                    ))}
+                    <ListItem button={true} key={'Insert Data'} onClick={openFileBorwser} >
+                        <ListItemIcon></ListItemIcon>
+                        <ListItemText primary={'Insert Data'} />
+                    </ListItem>
                     <ListItem button={true} key={'Merge'} onClick={handleModalOpen} >
                         <ListItemIcon></ListItemIcon>
                         <ListItemText primary={'Merge'} />
@@ -269,35 +307,41 @@ export default function PersistentDrawerLeft() {
             </Modal>
 
             <div className={classes.container} >
-                <div className={classes.dataList}>
-                    <DataList />
+                <div>
+                    <div className={classes.dataList}>
+                        <DataList />
+                    </div>
                 </div>
+               
 
-                <div className={classes.content}>
-                    <PieContainer className={classes.content} >
-                        <CircleEngleText />
-                    </PieContainer>
+                <div className={classes.pieContainer}>
+                    <div className={classes.content}>
+                        <PieContainer className={classes.content} >
+                            <CircleEngleText />
+                        </PieContainer>
+                    </div>
+                    <div className={classes.content}>
+                        <PieContainer className={classes.content} >
+                            <CircleLabelList />
+                        </PieContainer>
+                    </div>
+                    <div className={classes.content}>
+                        <PieContainer className={classes.content}  >
+                            <CircleAlgo1 />
+                        </PieContainer>
+                    </div>
+                    <div className={classes.content}>
+                        <PieContainer className={classes.content}>
+                            <CirlceAlgo2 />
+                        </PieContainer>
+                    </div>
+                    <div className={classes.content}>
+                        <PieContainer className={classes.content} >
+                            <CirclerAroundText />
+                        </PieContainer>
+                    </div>
                 </div>
-                <div className={classes.content}>
-                    <PieContainer className={classes.content} >
-                        <CircleLabelList />
-                    </PieContainer>
-                </div>
-                <div className={classes.content}>
-                    <PieContainer className={classes.content}  >
-                        <CircleAlgo1 />
-                    </PieContainer>
-                </div>
-                <div className={classes.content}>
-                    <PieContainer className={classes.content}>
-                        <CirlceAlgo2 />
-                    </PieContainer>
-                </div>
-                <div className={classes.content}>
-                    <PieContainer className={classes.content} >
-                        <CirclerAroundText />
-                    </PieContainer>
-                </div>
+              
             </div>
         </div>
     );

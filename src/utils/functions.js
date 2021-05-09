@@ -174,6 +174,8 @@ export const displayPie = (svg, data) => {
     3- The data object is an array of {label : string , value : double}
 */
 export let engleText = (svg, data) => {
+
+ 
     svg
         .select(".labels")
         .attr("transform", "translate(" + 300 + "," + 300 + ")")
@@ -251,7 +253,7 @@ export let engleText = (svg, data) => {
 }
 
 export const textArround = (svg, data) => {
-
+    svg.select(".labels").selectAll(".text").remove()
     svg
         .select(".slices")
         .selectAll('.slice')
@@ -288,6 +290,8 @@ export const textArround = (svg, data) => {
 }
 
 export const labelList = (svg, data) => {
+    svg.select(".labels").selectAll("text").remove()
+    svg.select(".lines").selectAll("polyline").remove()
     svg
         .select(".labels")
         .attr("transform", "translate(" + 300 + "," + 300 + ")")
@@ -343,6 +347,10 @@ export const labelList = (svg, data) => {
 }
 
 export const textAlgo1 = (svg, data) => {
+    svg.selectAll(".algo1").remove()
+    svg.select(".labels")
+        .selectAll("text").remove()
+  
     svg
         .select(".labels")
         .attr("transform", "translate(" + 300 + "," + 300 + ")")
@@ -382,6 +390,7 @@ export const textAlgo1 = (svg, data) => {
 }
 
 export const textAlgo2 = (svg, data) => {
+    svg.selectAll(".algo2").remove()
     svg
         .select(".labels")
         .attr("transform", "translate(" + 300 + "," + 300 + ")")
