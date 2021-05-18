@@ -18,7 +18,7 @@ const arc = d3.arc()
     .outerRadius(radius * 0.8)
     .innerRadius(radius * 0.5);
 
- 
+
 
 const outerArc = d3.arc()
     .innerRadius(radius * 0.9)
@@ -181,7 +181,7 @@ export const displayPie = (svg, data) => {
     2- The svg must have a child element <g> with class "label"
     3- The data object is an array of {label : string , value : double}
 */
-export let engleText = (svg, data , fontSize) => {
+export let engleText = (svg, data, fontSize) => {
 
     svg
         .select(".labels")
@@ -260,7 +260,7 @@ export let engleText = (svg, data , fontSize) => {
 }
 
 export const textArround = (svg, data, fontSize) => {
-    svg.select(".labels").selectAll(".text").remove()
+  //  svg.select(".labels").remove()
     svg
         .select(".slices")
         .selectAll('.slice')
@@ -277,23 +277,36 @@ export const textArround = (svg, data, fontSize) => {
                 .attr("transform", "translate(" + 300 + "," + 300 + ")")
                 .style("fill", "none");
         });
-    let text = svg.select(".labels")
+    svg.select(".labels")
         .selectAll("text")
         .data(pie(data), key)
-        .join('text')
-        .attr("dy", "-13px")
-        .append("textPath")
-        .attr("font-size", fontSize)
-        .attr("startOffset", "50%")
-        .attr("transform", "translate(" + -300 + "," + -300 + ")")
-        .style("text-anchor", "middle")
-        .attr("xlink:href", (d, i) => "#donutArc" + i)
-        .text((d) => d.data.label)
-        .style("fill", (d) => d.data.color)
-    text
-        .exit()
-        .transition()
-        .remove();
+        .join(enter => {
+            enter.append('text')
+                .attr("dy", "-13px")
+                .append("textPath")
+                .attr("font-size", fontSize)
+                .attr("startOffset", "50%")
+                .attr("transform", "translate(" + -300 + "," + -300 + ")")
+                .style("text-anchor", "middle")
+                .attr("xlink:href", (d, i) => "#donutArc" + i)
+                .text((d) => d.data.label)
+                .style("fill", (d) => d.data.color)
+        }, update => {
+            update.attr("dy", "-13px")
+                .select("textPath")
+                .attr("font-size", fontSize)
+                .attr("startOffset", "50%")
+                .attr("transform", "translate(" + -300 + "," + -300 + ")")
+                .style("text-anchor", "middle")
+                .attr("xlink:href", (d, i) => "#donutArc" + i)
+                .text((d) => d.data.label)
+                .style("fill", (d) => d.data.color)
+        },
+            remove => {
+                remove.remove()
+            })
+
+
 }
 
 export const labelList = (svg, data, fontSize) => {
