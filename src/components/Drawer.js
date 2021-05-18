@@ -17,6 +17,7 @@ import {
     Typography,
     Toolbar,
     Button,
+    Fab,
     Modal,
     List,
     SvgIcon,
@@ -25,9 +26,11 @@ import {
 } from '@material-ui/core';
 import { mergeData, spliteData } from '../utils/randomizeData'
 import MenuIcon from '@material-ui/icons/Menu';
+
 import PieContainer from './PieContainer';
 import DataList from './DataList';
 import MergeModal from './MergeModal'
+import InsertElementModal from './InsertElementModal'
 //import CircleChart from './CircleChart'
 import CircleAlgo1 from './CircleAlgo1'
 import CirlceAlgo2 from './CirlceAlgo2'
@@ -134,8 +137,15 @@ const useStyles = makeStyles((theme) => ({
             easing: theme.transitions.easing.sharp,
             duration: theme.transitions.duration.leavingScreen,
         }),
+    },
 
-
+    updateDataSection: {
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'space-around',
+        position: 'fixed',
+        left: 300,
+        top: 250
     },
     contentShift: {
         transition: theme.transitions.create('margin', {
@@ -310,7 +320,13 @@ export default function PersistentDrawerLeft() {
                         <DataList />
                     </div>
                 </div>
-                <FontSizeSlider className={classes.fontSizeSliderStyle}/>
+
+
+                <div className={classes.updateDataSection}>
+                    <InsertElementModal/>
+                    <FontSizeSlider />
+                </div>
+
                 <div className={classes.pieContainer}>
                     <div className={classes.content}>
                         <PieContainer className={classes.content} >

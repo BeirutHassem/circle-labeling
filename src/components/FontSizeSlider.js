@@ -5,11 +5,10 @@ import Slider from '@material-ui/core/Slider';
 import { useFontSizeContext } from '../utils/fontSizeContext'
 const useStyles = makeStyles((theme) => ({
     root: {
-        width: 200,
-        position: 'fixed',
-        top: 300,
+   
+        paddingTop : 20 ,
         height: 250,
-        left: 200
+ 
     },
     margin: {
         height: theme.spacing(3),

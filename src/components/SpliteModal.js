@@ -99,7 +99,7 @@ export default function SpliteModal({data , callback}) {
                                 control={< Checkbox checked={checkboxState[index]} name={element.label} onChange={() => {
                                     let intermidiate = [...spliteState]
                                     let boxState = [...checkboxState]
-                                    debugger
+                                    
                                     intermidiate[0].ischecked = !spliteState[index].ischecked
                                     boxState[0] = !checkboxState[index]
                                     

@@ -32,7 +32,7 @@ const randomText = (size) => {
     return text;
 }
 
-const normilizeData = (data) => {
+export const normilizeData = (data) => {
     let size = data.length
     let sum = 0
     for (let i = 0; i < size; i++) {
@@ -41,7 +41,6 @@ const normilizeData = (data) => {
     for (let i = 0; i < size; i++) {
         data[i].value /= sum
     }
-    console.log(JSON.stringify(data))
     return data
 }
 
