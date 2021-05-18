@@ -37,7 +37,7 @@ import CirclerAroundText from './CirclerAroundText'
 import { useDataContext } from '../utils/dataContext'
 import randomizeData from "../utils/randomizeData"
 import SpliteModal from './SpliteModal';
-
+import FontSizeSlider from './FontSizeSlider'
 const drawerWidth = 240;
 
 function rand() {
@@ -101,9 +101,7 @@ const useStyles = makeStyles((theme) => ({
         marginTop: 100,
         marginLeft: 40,
         alignItems: 'center'
-
     },
-
 
     pieContainer: {
         display: "flex",
@@ -312,8 +310,7 @@ export default function PersistentDrawerLeft() {
                         <DataList />
                     </div>
                 </div>
-               
-
+                <FontSizeSlider className={classes.fontSizeSliderStyle}/>
                 <div className={classes.pieContainer}>
                     <div className={classes.content}>
                         <PieContainer className={classes.content} >
@@ -341,7 +338,7 @@ export default function PersistentDrawerLeft() {
                         </PieContainer>
                     </div>
                 </div>
-              
+
             </div>
         </div>
     );

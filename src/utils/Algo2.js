@@ -1,5 +1,5 @@
-import {fontSize} from './functions'
-export function Algo2(Texts, arcs, circle, svgc , data ) {
+//import {fontSize} from './functions'
+export function Algo2(Texts, arcs, circle, svgc, data, fontSize) {
     // text are instances of textes in svg // create defaults ones
     // arcs [[x,y],[x,y], middles] // start cos, sin / calculate engle
     // circle {outermax, {x:0,y:0}}
@@ -8,6 +8,7 @@ export function Algo2(Texts, arcs, circle, svgc , data ) {
     this.Circle = circle;
     this.svg = svgc;
     this.data = data
+    this.fontSize = fontSize
 }
 // put angles between [0,2*pi]
 Algo2.prototype.normalizeAngle = function () {
@@ -148,7 +149,7 @@ Algo2.prototype.DrawRectangle = function (rects, titArc, TitaNorm) {
             .attr("y", cor[1])
             .attr("class", "algo2")
             .text(eleText.label)
-            .attr("font-size", fontSize)
+            .attr("font-size", this.fontSize )
             .style("text-anchor", "middle")
             .attr("transform", "translate(" + 300 + "," + 300 + ")")
             .style("fill", colorText)

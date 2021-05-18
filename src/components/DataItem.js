@@ -2,6 +2,8 @@ import React from 'react'
 import EditRoundedIcon from '@material-ui/icons/EditRounded';
 import FormatColorFillRoundedIcon from '@material-ui/icons/FormatColorFillRounded';
 import CancelRoundedIcon from '@material-ui/icons/CancelRounded';
+
+import { SketchPicker } from 'react-color';
 import {
     IconButton,
     Typography,
@@ -12,7 +14,6 @@ import {
     CardHeader,
     Card
 } from '@material-ui/core';
-import { ColorPicker, useColor } from "react-color-palette";
 import "react-color-palette/lib/css/styles.css";
 import { useDataContext } from '../utils/dataContext'
 
@@ -34,7 +35,7 @@ const useStyles = makeStyles({
     content: {
         margin: '-10px 0 ',
 
-        transform: 'scale(0.8)' ,
+        transform: 'scale(0.8)',
         padding: 0
     },
     title: {
@@ -53,8 +54,11 @@ export default function DataItem({ item, index }) {
     const classes = useStyles();
     const [color, setColor] = React.useState(item.color);
     const [isEditing, setEditing] = React.useState(false)
+
+    const [isEditingColor, setEditingColor] = React.useState(false)
     const [inputText, setInputText] = React.useState(item.label)
     const inputField = React.useRef(null)
+
 
     React.useEffect(() => {
         setInputText(item.label)
@@ -81,10 +85,10 @@ export default function DataItem({ item, index }) {
         handleEditing()
         console.log(item)
         updateContext({
-            label : inputText ,
-            value : item.value , 
-            color : color ,
-            children : item.children
+            label: inputText,
+            value: item.value,
+            color: color,
+            children: item.children
         })
     }
 
@@ -93,8 +97,27 @@ export default function DataItem({ item, index }) {
         setEditing(!isEditing)
     }
 
-    const colorHandler = () => {
+    const handleChangeColor = (colorUpdated) =>{
+        setColor(colorUpdated.hex);
 
+    }
+    const handleChangeComplete = (colorUpdated) => {
+        setColor(colorUpdated.hex);
+
+        updateContext({
+            label: inputText,
+            value: item.value,
+            color: colorUpdated.hex,
+            children: item.children
+        })
+    };
+
+    let colorPointer
+    if (isEditingColor) {
+        colorPointer = <SketchPicker color={color}
+            onChangeComplete={handleChangeComplete}
+            onChange={handleChangeColor}
+        />
     }
 
     if (isEditing) return (
@@ -118,34 +141,41 @@ export default function DataItem({ item, index }) {
                         value={inputText}
                     />
                 </form>
-                
+
 
             </CardContent>
         </Card>
     )
 
     return (
-        <Card className={classes.root} style={{ borderLeftColor: color }}>
-            <CardHeader
-                className={classes.header}
-                action={
-                    <div>
-                        <IconButton aria-label="edit text" onClick={handleEditing}>
-                            <EditRoundedIcon />
-                        </IconButton>
-                        <IconButton aria-label="change color" onClick={colorHandler}>
-                            <FormatColorFillRoundedIcon />
-                        </IconButton>
-                    </div>
-                } />
-            <CardContent className={classes.content}>
-                <Typography variant="h5" component="h2" className={classes.header}>
-                    {inputText}
-                </Typography>
-                <Typography variant="h6" component="h5" className={classes.header} color="textSecondary">
-                    {"" + Math.round((item.value * 100 + Number.EPSILON)* 100)   / 100 + "%" }
-                </Typography>
-            </CardContent>
-        </Card>
+        <div>
+            {colorPointer}
+
+            <Card className={classes.root} style={{ borderLeftColor: color }}>
+                <CardHeader
+                    className={classes.header}
+                    action={
+                        <div>
+
+                            <IconButton aria-label="edit text" onClick={handleEditing}>
+                                <EditRoundedIcon />
+                            </IconButton>
+                            <IconButton aria-label="change color" onClick = {()=> {
+                                setEditingColor(!isEditingColor)
+                            }} >
+                                <FormatColorFillRoundedIcon />
+                            </IconButton>
+                        </div>
+                    } />
+                <CardContent className={classes.content}>
+                    <Typography variant="h5" component="h2" className={classes.header}>
+                        {inputText}
+                    </Typography>
+                    <Typography variant="h6" component="h5" className={classes.header} color="textSecondary">
+                        {"" + Math.round((item.value * 100 + Number.EPSILON) * 100) / 100 + "%"}
+                    </Typography>
+                </CardContent>
+            </Card>
+        </div>
     )
 }

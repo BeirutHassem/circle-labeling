@@ -17,23 +17,21 @@ const useStyles = makeStyles({
   },
 });
 
-export default function PieContainer({children}) {
+export default function PieContainer({ children }) {
   const classes = useStyles();
-  const downloadSvg = () =>{
+  const downloadSvg = () => {
     console.log('download')
-   // try to get children function
+    // try to get children function
   }
   return (
     <Card className={classes.root}>
-      <CardActionArea>
-        <CardContent>
-          <div style={{ minWidth: 600,  minHeight: 600  , margin : 20}} >
-            {children}
-          </div>
-        </CardContent>
-      </CardActionArea>
+      <CardContent>
+        <div style={{ minWidth: 600, minHeight: 600, margin: 20 }} >
+          {children}
+        </div>
+      </CardContent>
       <CardActions>
-        <Button size="small" color="primary" onClick ={downloadSvg} >
+        <Button size="small" color="primary" onClick={downloadSvg} >
           Download
         </Button>
       </CardActions>

@@ -1,11 +1,10 @@
-import {fontSize} from './functions'
-
-export function StransitionText(Texts, arcs, circle, svgc, data) {
+export function StransitionText(Texts, arcs, circle, svgc, data, fontSize) {
     this.Texts = Texts;
     this.Arcs = arcs;
     this.Circle = circle;
     this.svg = svgc
     this.data = data;
+    this.fontSize = fontSize
 }
 
 StransitionText.prototype.get_D_rectangle = function (i) {
@@ -69,7 +68,7 @@ StransitionText.prototype.main = function () {
 }
 StransitionText.prototype.DrawRectangle = function (rects, titArc) {
     //console.log("data", data, listColor, rects.length, data.length);
-    var rectangls= [];
+    var rectangls = [];
     for (var i = 0; i < rects.length; i++) {
         var mid = titArc[i][2].middle;
         var eleText = this.data[i];
@@ -82,18 +81,18 @@ StransitionText.prototype.DrawRectangle = function (rects, titArc) {
         var newx;
         newx = cor[0] - (w / 2);
         var newy = cor[1] - (h / 2);
-    /*    this.svg.append("rect").attr("x", newx)
-        .attr("y", newy)
-        .attr("width", w)
-        .attr("height", h).
-        attr("fill", "none")
-        .attr("stroke", "black");
-        this.svg.append("circle")
-        .attr("cx", newx)
-        .attr("cy", newy)
-        .attr("r", 1)
-        .attr("fill", "green");
-*/
+        /*    this.svg.append("rect").attr("x", newx)
+            .attr("y", newy)
+            .attr("width", w)
+            .attr("height", h).
+            attr("fill", "none")
+            .attr("stroke", "black");
+            this.svg.append("circle")
+            .attr("cx", newx)
+            .attr("cy", newy)
+            .attr("r", 1)
+            .attr("fill", "green");
+    */
 
 
         this.svg.append("text")
@@ -103,7 +102,7 @@ StransitionText.prototype.DrawRectangle = function (rects, titArc) {
             .text(eleText.label)
             .attr("transform", "translate(" + 300 + "," + 300 + ")")
             .style("text-anchor", "middle")
-            .style("fill", colorText).style("font-size", fontSize)
+            .style("fill", colorText).style("font-size", this.fontSize)
             .style("dominant-baseline", "central");
 
     }

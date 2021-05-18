@@ -18,7 +18,7 @@ const arc = d3.arc()
     .outerRadius(radius * 0.8)
     .innerRadius(radius * 0.5);
 
-export const fontSize = 20
+ 
 
 const outerArc = d3.arc()
     .innerRadius(radius * 0.9)
@@ -34,6 +34,14 @@ const midAngle = (d) => d.startAngle + (d.endAngle - d.startAngle) / 2
 */
 export const displayPie = (svg, data) => {
 
+
+    svg.call(d3.zoom().on("zoom", function (e) {
+        svg.attr("transform", "translate(" + e.translate + ")scale(" + e.scale + ")");
+    }))
+        .append("g").call(d3.drag()
+            .on("drag", function (d, i) {
+                d3.select(this).attr("transform", "translate(" + (this.x = d.x) + "," + (this.y = d.y) + ")");
+            }));
     svg
         .attr("width", "100%")
         .attr("height", 600)
@@ -173,9 +181,8 @@ export const displayPie = (svg, data) => {
     2- The svg must have a child element <g> with class "label"
     3- The data object is an array of {label : string , value : double}
 */
-export let engleText = (svg, data) => {
+export let engleText = (svg, data , fontSize) => {
 
- 
     svg
         .select(".labels")
         .attr("transform", "translate(" + 300 + "," + 300 + ")")
@@ -215,31 +222,31 @@ export let engleText = (svg, data) => {
         },
             update => {
                 update
-                .attr("dy", ".35em")
-                .attr("font-size", fontSize)
-                .text((d) => d.data.label)
-                .style("fill", (d) => d.data.color)
-                .transition()
-                .attrTween("transform", (d, i, e) => {
-                    e[i]._current = e[i]._current || d;
-                    let interpolate = d3.interpolate(e[i]._current, d);
-                    e[i]._current = interpolate(0);
-                    return (t) => {
-                        let d2 = interpolate(t);
-                        let pos = [radius * Math.cos(midAngle(d2) - Math.PI / 2), radius * Math.sin(midAngle(d2) - Math.PI / 2)]
-                        if (midAngle(d2) < Math.PI) {
-                            return "translate(" + pos + ") rotate(" + (midAngle(d2) * 180 / Math.PI - 90) + ")";
-                        }
-                        else
-                            return "translate(" + pos + ") rotate(" + (((midAngle(d2) * 180 / Math.PI) - 90) + 180) + ")";
-                    };
-                })
-                .styleTween("text-anchor", (d, i, e) => {
-                    e[i]._current = e[i]._current || d;
-                    let interpolate = d3.interpolate(e[i]._current, d);
-                    e[i]._current = interpolate(0);
-                    return (t) => midAngle(interpolate(t)) < Math.PI ? "start" : "end";
-                })
+                    .attr("dy", ".35em")
+                    .attr("font-size", fontSize)
+                    .text((d) => d.data.label)
+                    .style("fill", (d) => d.data.color)
+                    .transition()
+                    .attrTween("transform", (d, i, e) => {
+                        e[i]._current = e[i]._current || d;
+                        let interpolate = d3.interpolate(e[i]._current, d);
+                        e[i]._current = interpolate(0);
+                        return (t) => {
+                            let d2 = interpolate(t);
+                            let pos = [radius * Math.cos(midAngle(d2) - Math.PI / 2), radius * Math.sin(midAngle(d2) - Math.PI / 2)]
+                            if (midAngle(d2) < Math.PI) {
+                                return "translate(" + pos + ") rotate(" + (midAngle(d2) * 180 / Math.PI - 90) + ")";
+                            }
+                            else
+                                return "translate(" + pos + ") rotate(" + (((midAngle(d2) * 180 / Math.PI) - 90) + 180) + ")";
+                        };
+                    })
+                    .styleTween("text-anchor", (d, i, e) => {
+                        e[i]._current = e[i]._current || d;
+                        let interpolate = d3.interpolate(e[i]._current, d);
+                        e[i]._current = interpolate(0);
+                        return (t) => midAngle(interpolate(t)) < Math.PI ? "start" : "end";
+                    })
             },
             exit => {
                 exit
@@ -252,7 +259,7 @@ export let engleText = (svg, data) => {
 
 }
 
-export const textArround = (svg, data) => {
+export const textArround = (svg, data, fontSize) => {
     svg.select(".labels").selectAll(".text").remove()
     svg
         .select(".slices")
@@ -289,7 +296,7 @@ export const textArround = (svg, data) => {
         .remove();
 }
 
-export const labelList = (svg, data) => {
+export const labelList = (svg, data, fontSize) => {
     svg.select(".labels").selectAll("text").remove()
     svg.select(".lines").selectAll("polyline").remove()
     svg
@@ -346,11 +353,11 @@ export const labelList = (svg, data) => {
         .style("stroke", d => d.data.color)
 }
 
-export const textAlgo1 = (svg, data) => {
+export const textAlgo1 = (svg, data, fontSize) => {
     svg.selectAll(".algo1").remove()
     svg.select(".labels")
         .selectAll("text").remove()
-  
+
     svg
         .select(".labels")
         .attr("transform", "translate(" + 300 + "," + 300 + ")")
@@ -384,13 +391,15 @@ export const textAlgo1 = (svg, data) => {
     });
     const circle = { 'r': outer, 'o': { 'x': 0, 'y': 0 } };
     if (sliceList.length == co) {
-        let txtA = new StransitionText(textclas._groups[0], sliceList, circle, svg, data);
+        let txtA = new StransitionText(textclas._groups[0], sliceList, circle, svg, data, fontSize);
         txtA.main();
     }
 }
 
-export const textAlgo2 = (svg, data) => {
-    svg.selectAll(".algo2").remove()
+export const textAlgo2 = (svg, data, fontSize) => {
+    // svg.selectAll(".algo2").remove()
+    svg.selectAll("text").remove();
+    // svg.select(".slices").selectAll("path.slice").remove();
     svg
         .select(".labels")
         .attr("transform", "translate(" + 300 + "," + 300 + ")")
@@ -424,7 +433,7 @@ export const textAlgo2 = (svg, data) => {
     });
     const circle = { 'r': outer, 'o': { 'x': 0, 'y': 0 } };
     if (sliceList.length == co) {
-        let txtA = new Algo2(textclas._groups[0], sliceList, circle, svg, data);
+        let txtA = new Algo2(textclas._groups[0], sliceList, circle, svg, data, fontSize);
         txtA.main();
     }
 }
