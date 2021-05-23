@@ -90,13 +90,21 @@ export const displayPie = (svg, data) => {
                 .selectAll("path.slice")
                 .style('fill', "#eee")
             d3.select(this).style('fill', color)
-
             svg.select(".labels")
                 .selectAll("text")
                 .data(pie(data), key)
                 .join(
                     enter => {
-
+                        enter.transition()
+                            .style("fill", (d) => {
+                                if (d.data.color == color) {
+                                    
+                                    console.log("I'm a color")
+                                    return color
+                                } else {
+                                    return '#eee'
+                                }
+                            })
                     },
                     update => {
                         update
@@ -116,14 +124,11 @@ export const displayPie = (svg, data) => {
                             .remove();
                     }
                 )
-
         })
 
     svg.select(".slices")
         .selectAll("path.slice")
         .on('mouseout', function (d) {
-
-
             svg.select(".slices")
                 .selectAll("path.slice")
                 .data(pie(data), key)
@@ -156,7 +161,8 @@ export const displayPie = (svg, data) => {
                 .data(pie(data), key)
                 .join(
                     enter => {
-
+                        enter.transition()
+                            .style("fill", (d) => d.data.color)
                     },
                     update => {
                         update
@@ -197,6 +203,7 @@ export let engleText = (svg, data, fontSize) => {
                 .attr("font-size", fontSize)
                 .text((d) => d.data.label)
                 .style("fill", (d) => d.data.color)
+                .attr("class", 'label')
                 .transition()
                 .attrTween("transform", (d, i, e) => {
                     e[i]._current = e[i]._current || d;
@@ -224,6 +231,7 @@ export let engleText = (svg, data, fontSize) => {
                 update
                     .attr("dy", ".35em")
                     .attr("font-size", fontSize)
+                    .attr("class", 'label')
                     .text((d) => d.data.label)
                     .style("fill", (d) => d.data.color)
                     .transition()
@@ -260,7 +268,7 @@ export let engleText = (svg, data, fontSize) => {
 }
 
 export const textArround = (svg, data, fontSize) => {
-  //  svg.select(".labels").remove()
+    //  svg.select(".labels").remove()
     svg
         .select(".slices")
         .selectAll('.slice')

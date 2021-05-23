@@ -339,10 +339,8 @@ export default function PersistentDrawerLeft() {
                         <DataList />
                     </div>
                 </div>
-
-
+                
                 <div className={classes.updateDataSection}>
-                    <InsertElementModal />
                     <FontSizeSlider />
                 </div>
 
