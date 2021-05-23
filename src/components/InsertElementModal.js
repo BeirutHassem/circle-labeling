@@ -5,13 +5,14 @@ import {
     DialogActions,
     Button,
     Dialog,
+    ListItemIcon,
+    ListItemText,
+    ListItem,
     Paper,
     TextField,
     DialogContent,
-
     DialogContentText
 } from '@material-ui/core';
-import AddIcon from '@material-ui/icons/Add';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import { useTheme } from '@material-ui/core/styles';
 import Draggable from 'react-draggable';
@@ -19,17 +20,21 @@ import FormatColorFillRoundedIcon from '@material-ui/icons/FormatColorFillRounde
 import { makeStyles } from '@material-ui/core/styles';
 import { useDataContext } from '../utils/dataContext'
 import { normilizeData } from '../utils/randomizeData';
+import AddIcon from '@material-ui/icons/Add';
+
 const useStyles = makeStyles((theme) => ({
     inputContainer: {
         display: 'flex',
         width: '100%',
-        justifyContent: 'space-between',
+        justifyContent: 'space-around',
         alignItems: ' center ',
 
     },
     inputColor: {
-        display: 'none',
-
+        position: 'relative',
+        left: 78,
+        visibility: 'hidden',
+        top: 12,
         height: 0,
         width: 0
     }
@@ -88,12 +93,12 @@ export default function InsertElementModal() {
             children: null
         })
         dataList.forEach(item => {
-             console.log(item.value)
+            console.log(item.value)
         })
         addData(normilizeData(dataList))
         let sum = 0
         data.forEach(e => {
-            sum +=e.value
+            sum += e.value
         })
         console.log(sum)
         handleClose()
@@ -101,9 +106,11 @@ export default function InsertElementModal() {
 
     return (
         <div>
-            <Fab color="primary" aria-label="add" onClick={handleClickOpen} >
-                <AddIcon />
-            </Fab>
+            <ListItem button={true} key={'Add Items'} onClick={handleClickOpen} >
+                <ListItemIcon><AddIcon /></ListItemIcon>
+                <ListItemText primary={'Add Items'} />
+            </ListItem>
+            
             <Dialog open={open} onClose={handleClose}
                 fullScreen={fullScreen}
                 PaperComponent={PaperComponent}
@@ -125,6 +132,7 @@ export default function InsertElementModal() {
                             id="label"
                             label="label"
                             type="text"
+                            required
 
                         />
                         <TextField
@@ -135,22 +143,21 @@ export default function InsertElementModal() {
                             autoFocus
                             margin="dense"
                             id="value"
-                            label="value (%)"
+                            label="value "
                             type="number"
                         />
-                        <Fab aria-label="add" onClick={onColorIconClick} style={{ background: color }}>
-                            <FormatColorFillRoundedIcon />
-                        </Fab>
-
                         <input
                             ref={inputColor}
                             className={classes.inputColor}
                             type='color'
                             value={color}
                             onChange={handleColorChange}
-
-
                         />
+                        <Fab aria-label="add" onClick={onColorIconClick} style={{ background: color, zIndex: 10, }}>
+                            <FormatColorFillRoundedIcon />
+                        </Fab>
+
+
 
                     </div>
                 </DialogContent>
@@ -166,3 +173,10 @@ export default function InsertElementModal() {
         </div>
     );
 }
+
+
+// insert data 
+// save data 
+// change size for every size 
+// delete node 
+// matrice arengement 

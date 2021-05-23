@@ -1,6 +1,8 @@
 import React from 'react';
 import clsx from 'clsx';
 import { makeStyles } from '@material-ui/core/styles';
+import DeletItemsModal from './DeletItemsModal';
+
 import {
     ListItemIcon,
     ListItemText,
@@ -24,6 +26,7 @@ import {
     AppBar,
     CssBaseline
 } from '@material-ui/core';
+// import   WriteJsonFile   from 'write-json-file'
 import { mergeData, spliteData } from '../utils/randomizeData'
 import MenuIcon from '@material-ui/icons/Menu';
 
@@ -221,7 +224,11 @@ export default function PersistentDrawerLeft() {
         // `current` points to the mounted file input element
         inputFile.current.click();
     };
+    const saveDataToJsonFile = () => {
+        // `current` points to the mounted file input element
 
+
+    };
     return (
 
         <div className={classes.root}>
@@ -281,10 +288,6 @@ export default function PersistentDrawerLeft() {
                 </List>
                 <Divider />
                 <List>
-                    <ListItem button={true} key={'Insert Data'} onClick={openFileBorwser} >
-                        <ListItemIcon></ListItemIcon>
-                        <ListItemText primary={'Insert Data'} />
-                    </ListItem>
                     <ListItem button={true} key={'Merge'} onClick={handleModalOpen} >
                         <ListItemIcon></ListItemIcon>
                         <ListItemText primary={'Merge'} />
@@ -293,7 +296,23 @@ export default function PersistentDrawerLeft() {
                         <ListItemIcon></ListItemIcon>
                         <ListItemText primary={'Splite'} />
                     </ListItem>
-
+                </List>
+                <Divider />
+                <List>
+                    <DeletItemsModal />
+                    <InsertElementModal />
+                </List>
+                <Divider />
+                <List>
+                    <ListItem button={true} key={'Import Data'} onClick={openFileBorwser} >
+                        <ListItemIcon></ListItemIcon>
+                        <ListItemText primary={'Import Data'} />
+                    </ListItem>
+                    <ListItem button={true} key={'Save Data'} onClick={saveDataToJsonFile} >
+                        <ListItemIcon></ListItemIcon>
+                        <a href="try.json" download></a>
+                        <ListItemText primary={'Save Data'} />
+                    </ListItem>
                 </List>
             </Drawer>
             <Modal
@@ -323,7 +342,7 @@ export default function PersistentDrawerLeft() {
 
 
                 <div className={classes.updateDataSection}>
-                    <InsertElementModal/>
+                    <InsertElementModal />
                     <FontSizeSlider />
                 </div>
 

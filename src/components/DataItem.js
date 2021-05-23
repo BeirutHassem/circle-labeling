@@ -2,12 +2,12 @@ import React from 'react'
 import EditRoundedIcon from '@material-ui/icons/EditRounded';
 import FormatColorFillRoundedIcon from '@material-ui/icons/FormatColorFillRounded';
 import CancelRoundedIcon from '@material-ui/icons/CancelRounded';
-
 import { SketchPicker } from 'react-color';
 import {
     IconButton,
     Typography,
     CardContent,
+    withStyles ,
     makeStyles,
     CardActions,
     TextField,
@@ -47,15 +47,37 @@ const useStyles = makeStyles({
     input: {
 
     },
+    inputColor: {
+        position: 'relative',
+        right: 7,
+        visibility: 'hidden',
+        height: 0,
+        width: 0
+    },
+
+    icon : {
+        padding : 0
+    }
 
 });
 
+const IconButtonSmall = withStyles({
+    root: {
+      padding : 0 ,
+      paddingRight : 4 ,
+    },
+})(IconButton);
+
+const EditColorIcon = withStyles({
+    root: {
+       height : '20px' ,
+       width : '20px'
+    },
+})(FormatColorFillRoundedIcon);
 export default function DataItem({ item, index }) {
     const classes = useStyles();
     const [color, setColor] = React.useState(item.color);
     const [isEditing, setEditing] = React.useState(false)
-
-    const [isEditingColor, setEditingColor] = React.useState(false)
     const [inputText, setInputText] = React.useState(item.label)
     const inputField = React.useRef(null)
 
@@ -97,9 +119,21 @@ export default function DataItem({ item, index }) {
         setEditing(!isEditing)
     }
 
-    const handleChangeColor = (colorUpdated) =>{
-        setColor(colorUpdated.hex);
+    const handleChangeColor = (event) => {
+        // setColor(event.target.value)
 
+        updateContext({
+            label: inputText,
+            value: item.value,
+            color: event.target.value,
+            children: item.children
+        })
+    }
+
+    const inputColor = React.useRef(null)
+
+    const handleColorIconClicked = () => {
+        inputColor.current.click();
     }
     const handleChangeComplete = (colorUpdated) => {
         setColor(colorUpdated.hex);
@@ -113,12 +147,7 @@ export default function DataItem({ item, index }) {
     };
 
     let colorPointer
-    if (isEditingColor) {
-        colorPointer = <SketchPicker color={color}
-            onChangeComplete={handleChangeComplete}
-            onChange={handleChangeColor}
-        />
-    }
+
 
     if (isEditing) return (
         <Card className={classes.root} style={{ borderLeftColor: color }}>
@@ -149,22 +178,24 @@ export default function DataItem({ item, index }) {
 
     return (
         <div>
-            {colorPointer}
-
             <Card className={classes.root} style={{ borderLeftColor: color }}>
                 <CardHeader
                     className={classes.header}
                     action={
                         <div>
+                            <IconButtonSmall aria-label="edit text" onClick={handleEditing} style={{padding : 0}}>
+                                <EditRoundedIcon style={{ padding: 0 }}/>
+                            </IconButtonSmall>
+                            <IconButtonSmall aria-label="change color" onClick={handleColorIconClicked} >
+                                <EditColorIcon />
+                                <input
+                                    ref={inputColor}
+                                    className={classes.inputColor}
+                                    type='color'
+                                    value={color}
+                                    onChange={handleChangeColor} />
 
-                            <IconButton aria-label="edit text" onClick={handleEditing}>
-                                <EditRoundedIcon />
-                            </IconButton>
-                            <IconButton aria-label="change color" onClick = {()=> {
-                                setEditingColor(!isEditingColor)
-                            }} >
-                                <FormatColorFillRoundedIcon />
-                            </IconButton>
+                            </IconButtonSmall>
                         </div>
                     } />
                 <CardContent className={classes.content}>
