@@ -92,8 +92,7 @@ export const displayPie = (svg, data) => {
             d3.select(this).style('fill', color)
             svg.select(".labels")
                 .selectAll("text")
-                .data(pie(data), key)
-                .join(
+                .data(pie(data), key).join(
                     enter => {
                         enter.transition()
                             .style("fill", (d) => {
