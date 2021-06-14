@@ -2,7 +2,7 @@ import React from 'react';
 import clsx from 'clsx';
 import { makeStyles } from '@material-ui/core/styles';
 import DeletItemsModal from './DeletItemsModal';
-
+ 
 import {
     ListItemIcon,
     ListItemText,
@@ -44,6 +44,7 @@ import { useDataContext } from '../utils/dataContext'
 import randomizeData from "../utils/randomizeData"
 import SpliteModal from './SpliteModal';
 import FontSizeSlider from './FontSizeSlider'
+import exportFromJSON from 'export-from-json'
 const drawerWidth = 240;
 
 function rand() {
@@ -226,7 +227,11 @@ export default function PersistentDrawerLeft() {
     };
     const saveDataToJsonFile = () => {
         // `current` points to the mounted file input element
+         
+        const fileName = 'data'
+        const exportType = exportFromJSON.types.json
 
+        exportFromJSON({ data, fileName, exportType })
 
     };
     return (

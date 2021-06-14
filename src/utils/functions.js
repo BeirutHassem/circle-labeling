@@ -122,8 +122,8 @@ export const displayPie = (svg, data) => {
                             .transition()
                             .remove();
                     }
-                )
-        })
+        )
+                })
 
     svg.select(".slices")
         .selectAll("path.slice")
@@ -179,7 +179,7 @@ export const displayPie = (svg, data) => {
 
         })
 
-};
+    }
 
 /*
     1- This function is displaying a Text inside the svg on the form of Engle Text
